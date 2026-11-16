@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Paul, With Love — From Tierra</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cormorant Garamond (Editorial Serif) & Plus Jakarta Sans (Clean Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti for celebratory burst -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        cream: '#FDF8F5',
+                        blush: '#FCECEB',
+                        roseSoft: '#E2959A',
+                        roseDeep: '#B55D64',
+                        champagne: '#D4A373',
+                        charcoal: '#2D2426',
+                        warmGray: '#6D5D60',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom 3D Flip Card Utilities */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+
+        /* Smooth Modal Transitions */
+        .modal-backdrop {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-content {
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+        }
+
+        /* Subtle Envelope Hover Flap Effect */
+        .envelope-card:hover .envelope-icon {
+            transform: translateY(-4px) scale(1.05);
+        }
+        .envelope-icon {
+            transition: transform 0.3s ease;
+        }
+
+        /* Gentle Floating Animation for Love Jar */
+        @keyframes gentleFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+        }
+        .animate-float {
+            animation: gentleFloat 3.5s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-cream text-charcoal font-sans antialiased selection:bg-roseSoft/30 selection:text-roseDeep overflow-x-hidden">
+
+    <!-- =========================================================
+         BACKGROUND FLOATING HEARTS CANVAS
+    ========================================================= -->
+    <canvas id="heartsCanvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+
+    <!-- =========================================================
+         NAVIGATION BAR (Minimal & Sticky)
+    ========================================================= -->
+    <nav class="sticky top-0 z-40 bg-cream/80 backdrop-blur-md border-b border-roseSoft/20">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+            <a href="#top" class="font-serif italic text-xl sm:text-2xl font-semibold text-roseDeep tracking-wide">
+                T &amp; P
+            </a>
+            <div class="flex items-center gap-4 sm:gap-7 text-xs sm:text-sm font-medium text-warmGray">
+                <a href="#reasons" class="hover:text-roseDeep transition-colors py-1">Reasons</a>
+                <a href="#love-jar" class="hover:text-roseDeep transition-colors py-1">Love Jar</a>
+                <a href="#memories" class="hover:text-roseDeep transition-colors py-1">Memories</a>
+                <a href="#open-when" class="hover:text-roseDeep transition-colors py-1">Open When</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- =========================================================
+         1. HERO SECTION
+    ========================================================= -->
+    <header id="top" class="relative z-10 min-h-[88vh] flex flex-col items-center justify-center text-center px-6 py-20">
+        <div class="max-w-3xl mx-auto space-y-6">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blush border border-roseSoft/30 text-roseDeep text-xs sm:text-sm font-medium tracking-wider uppercase shadow-sm">
+                <span>Made just for you</span>
+                <span aria-hidden="true">&hearts;</span>
+            </div>
+
+            <h1 class="font-serif text-5xl sm:text-7xl md:text-8xl font-semibold text-charcoal leading-[1.08] tracking-tight">
+                To My Favorite Person, <span class="italic text-roseDeep block sm:inline">Paul</span>
+            </h1>
+
+            <p class="max-w-xl mx-auto text-base sm:text-lg text-warmGray leading-relaxed font-normal">
+                A little corner of the internet built to remind you how deeply you are loved, appreciated, and cherished every single day.
+            </p>
+
+            <div class="pt-2">
+                <p class="font-serif italic text-2xl sm:text-3xl text-champagne font-semibold">
+                    Forever yours, Tierra
+                </p>
+            </div>
+
+            <div class="pt-6">
+                <a href="#reasons" class="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-roseDeep text-white font-medium text-sm sm:text-base shadow-md shadow-roseDeep/20 hover:bg-roseDeep/90 hover:-translate-y-0.5 transition-all">
+                    <span>Explore Your Love Letter</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="relative z-10 space-y-28 sm:space-y-36 pb-28">
+
+        <!-- =========================================================
+             2A. INTERACTIVE "REASONS I LOVE YOU" FLIP CARDS
+        ========================================================= -->
+        <section id="reasons" class="max-w-5xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
+                <span class="text-xs font-semibold uppercase tracking-widest text-champagne">Little Things &amp; Big Things</span>
+                <h2 class="font-serif text-4xl sm:text-5xl font-semibold text-charcoal">Reasons I Love You, Paul</h2>
+                <p class="text-sm sm:text-base text-warmGray">Tap or click each card to reveal what makes you so special to me.</p>
+            </div>
+
+            <div id="reasonsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Cards are dynamically rendered via JS for clean customization -->
+            </div>
+        </section>
+
+        <!-- =========================================================
+             2B. INTERACTIVE "LOVE NOTE JAR" GENERATOR
+        ========================================================= -->
+        <section id="love-jar" class="max-w-4xl mx-auto px-6">
+            <div class="bg-gradient-to-br from-blush/90 via-white to-blush/60 border border-roseSoft/30 rounded-3xl p-8 sm:p-12 shadow-xl shadow-roseSoft/10 text-center relative overflow-hidden">
+                <!-- Decorative subtle corner accents -->
+                <div class="absolute -top-10 -right-10 w-36 h-36 bg-roseSoft/10 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="absolute -bottom-10 -left-10 w-36 h-36 bg-champagne/15 rounded-full blur-2xl pointer-events-none"></div>
+
+                <span class="text-xs font-semibold uppercase tracking-widest text-champagne">Instant Pick-Me-Up</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-semibold text-charcoal mt-2">Tierra’s Jar of Love Notes</h2>
+                <p class="text-sm sm:text-base text-warmGray max-w-lg mx-auto mt-3">
+                    Whenever you want a quick reminder of how crazy I am about you, pull a folded note out of the jar.
+                </p>
+
+                <!-- Interactive Jar SVG Illustration -->
+                <div class="my-8 flex justify-center">
+                    <button id="pullNoteBtn" type="button" aria-label="Pull a love note from the jar" class="group focus:outline-none">
+                        <div class="animate-float relative inline-flex flex-col items-center">
+                            <svg class="w-32 h-36 sm:w-36 sm:h-40 drop-shadow-md transition-transform duration-300 group-hover:scale-105 group-active:scale-95" viewBox="0 0 140 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Jar Lid -->
+                                <rect x="38" y="10" width="64" height="14" rx="5" fill="#D4A373"/>
+                                <rect x="42" y="24" width="56" height="6" rx="2" fill="#B5835A"/>
+                                <!-- Ribbon -->
+                                <path d="M40 31H100V37H40V31Z" fill="#B55D64"/>
+                                <path d="M70 34L58 45M70 34L82 45" stroke="#B55D64" stroke-width="3" stroke-linecap="round"/>
+                                <!-- Glass Body -->
+                                <rect x="24" y="36" width="92" height="112" rx="24" fill="#FFFFFF" fill-opacity="0.85" stroke="#E2959A" stroke-width="3"/>
+                                <!-- Folded Paper Notes Inside -->
+                                <rect x="40" y="95" width="26" height="16" rx="3" transform="rotate(-12 40 95)" fill="#FCECEB" stroke="#E2959A" stroke-width="1.5"/>
+                                <rect x="70" y="102" width="28" height="16" rx="3" transform="rotate(15 70 102)" fill="#FDF8F5" stroke="#D4A373" stroke-width="1.5"/>
+                                <rect x="52" y="116" width="28" height="16" rx="3" transform="rotate(-5 52 116)" fill="#FCECEB" stroke="#B55D64" stroke-width="1.5"/>
+                                <rect x="38" y="76" width="24" height="14" rx="3" transform="rotate(18 38 76)" fill="#FDF8F5" stroke="#E2959A" stroke-width="1.5"/>
+                                <rect x="74" y="80" width="24" height="14" rx="3" transform="rotate(-18 74 80)" fill="#FCECEB" stroke="#D4A373" stroke-width="1.5"/>
+                                <!-- Heart on Glass -->
+                                <path d="M70 72C70 72 56 62.5 56 54.5C56 50.5 59.2 47.5 63 47.5C65.6 47.5 68.1 48.9 70 51.1C71.9 48.9 74.4 47.5 77 47.5C80.8 47.5 84 50.5 84 54.5C84 62.5 70 72 70 72Z" fill="#B55D64"/>
+                            </svg>
+                            <span class="mt-2 inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-roseDeep text-white text-sm font-medium shadow-md group-hover:bg-roseDeep/90 transition-colors">
+                                <span>Pull a Love Note</span>
+                                <span aria-hidden="true">&#10024;</span>
+                            </span>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Displayed Love Note Paper -->
+                <div id="noteDisplayContainer" class="max-w-xl mx-auto min-h-[120px] flex items-center justify-center">
+                    <div id="loveNotePaper" class="w-full bg-cream border border-champagne/40 rounded-2xl p-6 sm:p-8 shadow-inner transition-all duration-300">
+                        <p id="loveNoteText" class="font-serif italic text-xl sm:text-2xl text-charcoal leading-relaxed">
+                            "Click the jar above to pull your first note, Paul..."
+                        </p>
+                        <p id="loveNoteCounter" class="text-xs uppercase tracking-widest text-warmGray/70 mt-4">
+                            Note 0 of 10
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================================
+             3. "OUR MEMORIES & MOMENTS" TIMELINE / PHOTO FRAMES
+             (Easily customizable by Tierra!)
+        ========================================================= -->
+        <section id="memories" class="max-w-5xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-14 space-y-3">
+                <span class="text-xs font-semibold uppercase tracking-widest text-champagne">Our Story So Far</span>
+                <h2 class="font-serif text-4xl sm:text-5xl font-semibold text-charcoal">Our Memories &amp; Moments</h2>
+                <p class="text-sm sm:text-base text-warmGray">
+                    Every chapter with you is my favorite. <span class="italic text-roseDeep">(Tip: You can click any memory title or story below to edit and personalize it!)</span>
+                </p>
+            </div>
+
+            <!-- Timeline / Polaroid Memory Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Memory Card 1 -->
+                <article class="bg-white rounded-3xl p-5 pb-7 shadow-lg shadow-charcoal/5 border border-roseSoft/20 flex flex-col transition-transform duration-300 hover:-translate-y-1">
+                    <!-- Photo Frame Placeholder -->
+                    <div class="relative aspect-[4/3] w-full rounded-2xl overflow-hidden bg-blush border border-roseSoft/20 mb-5 group">
+                        <img 
+                            src="https://placehold.co/600x450/FCECEB/B55D64?text=Our+First+Date+%E2%99%A5" 
+                            alt="Our First Date memory placeholder" 
+                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        >
+                        <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-roseDeep shadow-sm" contenteditable="true">
+                            Chapter 01
+                        </span>
+                    </div>
+                    <div class="px-1 flex-1 flex flex-col">
+                        <span class="text-xs font-semibold uppercase tracking-wider text-champagne" contenteditable="true">Add Your Date Here</span>
+                        <h3 class="font-serif text-2xl font-semibold text-charcoal mt-1" contenteditable="true">Where It All Began</h3>
+                        <p class="text-sm text-warmGray leading-relaxed mt-2 flex-1" contenteditable="true">
+                            From the very first moment we talked, everything felt effortless. I knew right away that you were someone truly extraordinary.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Memory Card 2 -->
+                <article class="bg-white rounded-3xl p-5 pb-7 shadow-lg shadow-charcoal/5 border border-roseSoft/20 flex flex-col transition-transform duration-300 hover:-translate-y-1">
+                    <div class="relative aspect-[4/3] w-full rounded-2xl overflow-hidden bg-blush border border-roseSoft/20 mb-5 group">
+                        <img 
+                            src="https://placehold.co/600x450/FDF8F5/D4A373?text=Favorite+Adventure+%E2%9C%A8" 
+                            alt="Favorite Adventure memory placeholder" 
+                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        >
+                        <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-roseDeep shadow-sm" contenteditable="true">
+                            Chapter 02
+                        </span>
+                    </div>
+                    <div class="px-1 flex-1 flex flex-col">
+                        <span class="text-xs font-semibold uppercase tracking-wider text-champagne" contenteditable="true">Add Your Date Here</span>
+                        <h3 class="font-serif text-2xl font-semibold text-charcoal mt-1" contenteditable="true">Endless Laughter</h3>
+                        <p class="text-sm text-warmGray leading-relaxed mt-2 flex-1" contenteditable="true">
+                            No matter where we go or what we are doing, being with you turns ordinary days into my happiest memories.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Memory Card 3 -->
+                <article class="bg-white rounded-3xl p-5 pb-7 shadow-lg shadow-charcoal/5 border border-roseSoft/20 flex flex-col transition-transform duration-300 hover:-translate-y-1">
+                    <div class="relative aspect-[4/3] w-full rounded-2xl overflow-hidden bg-blush border border-roseSoft/20 mb-5 group">
+                        <img 
+                            src="https://placehold.co/600x450/FCECEB/B55D64?text=Us+Right+Now+%F0%9F%92%95" 
+                            alt="Us Right Now memory placeholder" 
+                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        >
+                        <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-roseDeep shadow-sm" contenteditable="true">
+                            Chapter 03
+                        </span>
+                    </div>
+                    <div class="px-1 flex-1 flex flex-col">
+                        <span class="text-xs font-semibold uppercase tracking-wider text-champagne" contenteditable="true">Today &amp; Always</span>
+                        <h3 class="font-serif text-2xl font-semibold text-charcoal mt-1" contenteditable="true">Falling Deeper Every Day</h3>
+                        <p class="text-sm text-warmGray leading-relaxed mt-2 flex-1" contenteditable="true">
+                            Looking at everything we’ve built together makes me so excited for all the adventures still waiting for us, Paul.
+                        </p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- =========================================================
+             4. INTERACTIVE "OPEN WHEN..." LETTERS SECTION
+        ========================================================= -->
+        <section id="open-when" class="max-w-5xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
+                <span class="text-xs font-semibold uppercase tracking-widest text-champagne">Sealed With A Kiss</span>
+                <h2 class="font-serif text-4xl sm:text-5xl font-semibold text-charcoal">Open When...</h2>
+                <p class="text-sm sm:text-base text-warmGray">Click any envelope below to break the wax seal and read a letter written just for that moment.</p>
+            </div>
+
+            <div id="envelopesGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <!-- Envelopes populated via JS -->
+            </div>
+        </section>
+
+        <!-- =========================================================
+             5. PLAYFUL INTERACTIVE FINALE ("RUNAWAY NO BUTTON")
+        ========================================================= -->
+        <section id="finale" class="max-w-3xl mx-auto px-6">
+            <div class="bg-white border border-roseSoft/30 rounded-3xl p-8 sm:p-14 text-center shadow-xl shadow-roseSoft/15 relative">
+                <span class="inline-block text-3xl mb-3" aria-hidden="true">&#128140;</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-semibold text-charcoal leading-tight">
+                    Paul, do you know how much Tierra loves you?
+                </h2>
+                <p class="text-sm sm:text-base text-warmGray mt-3 max-w-md mx-auto">
+                    Choose carefully... one of these buttons is a little shy!
+                </p>
+
+                <!-- Interactive Buttons Playground -->
+                <div id="playgroundArea" class="mt-10 relative min-h-[140px] flex flex-wrap items-center justify-center gap-6">
+                    <button 
+                        id="yesBtn" 
+                        type="button"
+                        class="px-8 py-4 rounded-full bg-roseDeep text-white font-semibold text-base sm:text-lg shadow-lg shadow-roseDeep/30 hover:bg-roseDeep/90 hover:scale-105 active:scale-95 transition-all z-10"
+                    >
+                        Yes, more than anything! &hearts;
+                    </button>
+
+                    <button 
+                        id="noBtn" 
+                        type="button"
+                        class="px-7 py-3.5 rounded-full bg-blush text-warmGray border border-roseSoft/40 font-medium text-sm sm:text-base shadow-sm transition-all duration-200 select-none"
+                    >
+                        Hmm, remind me?
+                    </button>
+                </div>
+
+                <!-- Celebratory Response Message (Hidden until Yes is clicked) -->
+                <div id="celebrationMessage" class="hidden mt-6 p-6 rounded-2xl bg-blush/70 border border-roseSoft/30 animate-fade-in">
+                    <h3 class="font-serif italic text-3xl text-roseDeep font-semibold">
+                        I love you to the moon and back, Paul!
+                    </h3>
+                    <p class="text-sm sm:text-base text-charcoal mt-2">
+                        Thank you for being my best friend, my safe place, and my greatest blessing. Forever &amp; always, Tierra.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================= -->
+    <footer class="relative z-10 border-t border-roseSoft/20 bg-blush/40 py-8 text-center px-6">
+        <p class="font-serif italic text-xl text-roseDeep">
+            Crafted with all my heart for Paul &bull; Love, Tierra
+        </p>
+    </footer>
+
+    <!-- =========================================================
+         MODAL FOR "OPEN WHEN..." LETTERS
+    ========================================================= -->
+    <div id="letterModal" class="modal-backdrop fixed inset-0 z-50 bg-charcoal/50 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 invisible" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-content bg-cream border border-champagne/40 rounded-3xl max-w-lg w-full p-7 sm:p-10 shadow-2xl relative transform scale-95 opacity-0">
+            <!-- Close Button -->
+            <button id="closeModalBtn" type="button" aria-label="Close letter" class="absolute top-5 right-5 w-10 h-10 rounded-full bg-blush text-roseDeep hover:bg-roseSoft/20 flex items-center justify-center transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+
+            <div class="text-center mb-6">
+                <span class="inline-block px-3 py-1 rounded-full bg-blush text-roseDeep text-xs font-semibold uppercase tracking-wider mb-2">
+                    A Letter For Paul
+                </span>
+                <h3 id="modalTitle" class="font-serif text-3xl font-semibold text-charcoal">
+                    Open when...
+                </h3>
+            </div>
+
+            <div class="bg-white/80 rounded-2xl p-6 border border-roseSoft/20 space-y-4 text-charcoal leading-relaxed text-sm sm:text-base">
+                <p id="modalBody" class="whitespace-pre-line"></p>
+                <p class="font-serif italic text-2xl text-roseDeep pt-2 text-right">
+                    With all my love,<br>Tierra &hearts;
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================
+         MODULAR JAVASCRIPT LOGIC
+    ========================================================= -->
+    <script>
+        /**
+         * 1. CUSTOMIZABLE DATA STORE
+         * Tierra can easily edit any of the reasons, jar notes, or letters right here!
+         */
+        const LOVE_DATA = {
+            reasons: [
+                {
+                    number: "01",
+                    title: "Your Kind Heart",
+                    detail: "The way you care so genuinely for the people around you inspires me every single day. You make everyone feel valued and safe."
+                },
+                {
+                    number: "02",
+                    title: "Your Smile & Laugh",
+                    detail: "One look at your smile can turn my entire day around. Hearing you genuinely laugh is my absolute favorite sound in the world."
+                },
+                {
+                    number: "03",
+                    title: "How Safe I Feel With You",
+                    detail: "In your arms, all the noise of the world fades away. Being with you feels like coming home."
+                },
+                {
+                    number: "04",
+                    title: "Your Patience & Support",
+                    detail: "Thank you for always listening, cheering me on, and standing beside me through every high and low."
+                },
+                {
+                    number: "05",
+                    title: "Our Silly Moments",
+                    detail: "From inside jokes to late-night talks about everything and nothing, nobody makes me happier than you do, Paul."
+                },
+                {
+                    number: "06",
+                    title: "Simply Being You",
+                    detail: "You don’t ever have to pretend to be anyone else. Every little quirk and detail about you is what makes me fall harder."
+                }
+            ],
+            jarNotes: [
+                "Just in case nobody told you today: you are doing amazing, and I am so proud of you, Paul.",
+                "I still get butterflies every time my phone lights up with your name.",
+                "You are my favorite notification, my favorite distraction, and my favorite person.",
+                "If I had to choose all over again, I would still choose you in every lifetime.",
+                "Sending you the biggest virtual hug right now—redeemable in person anytime!",
+                "Thank you for loving me the way you do. You make life so much sweeter.",
+                "You have the kindest soul and the most handsome face. Yes, I'm biased!",
+                "No matter how busy life gets, my heart is always right there with you.",
+                "You are my best friend and my greatest love story.",
+                "I love you more than words on a screen could ever capture. — Tierra"
+            ],
+            letters: [
+                {
+                    id: "miss-me",
+                    label: "Open when you miss me",
+                    subtitle: "Whenever distance feels a little too big",
+                    content: "Hey handsome,\n\nIf you’re opening this right now, I want you to close your eyes for a second and imagine me wrapping my arms around you. Even when we aren't in the same room, you are always on my mind and right here in my heart.\n\nCount down the hours until I get to see you again—because I’m already counting them too."
+                },
+                {
+                    id: "long-day",
+                    label: "Open when you had a long day",
+                    subtitle: "Take a deep breath and let go of the stress",
+                    content: "My love,\n\nI wish I could take all the stress off your shoulders right now. You work so hard and give so much of yourself, and I admire your dedication more than you know.\n\nTonight, let yourself rest. Put your phone on silent if you need to, grab something good to eat, and remember that you don’t have to carry everything alone. I’m always in your corner."
+                },
+                {
+                    id: "need-smile",
+                    label: "Open when you need a smile",
+                    subtitle: "A quick dose of sunshine from Tierra",
+                    content: "Hi Paul!\n\nFriendly reminder that you are officially the cutest, funniest, most wonderful boyfriend on the planet (and yes, I have scientific proof—it’s called how happy you make me).\n\nThink about our favorite inside joke, picture me doing a happy dance just because you exist, and let that handsome smile show!"
+                },
+                {
+                    id: "cant-sleep",
+                    label: "Open when you can't sleep",
+                    subtitle: "For quiet late-night thoughts",
+                    content: "Hey sleepyhead,\n\nIf your mind is racing tonight, take three slow, deep breaths with me. Inhale calm, exhale everything you can't control until tomorrow.\n\nYou are loved, you are appreciated, and tomorrow is a brand-new day. Rest easy knowing you have someone who adores you endlessly."
+                }
+            ]
+        };
+
+        /**
+         * 2. FLOATING HEARTS CANVAS BACKGROUND
+         */
+        function initFloatingHearts() {
+            const canvas = document.getElementById('heartsCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
+
+            const hearts = [];
+            const heartCount = Math.min(24, Math.floor(width / 45));
+            const colors = ['rgba(226, 149, 154, 0.28)', 'rgba(181, 93, 100, 0.2)', 'rgba(212, 163, 115, 0.25)'];
+
+            class HeartParticle {
+                constructor() {
+                    this.reset(true);
+                }
+                reset(initial = false) {
+                    this.x = Math.random() * width;
+                    this.y = initial ? Math.random() * height : height + 20;
+                    this.size = Math.random() * 10 + 7;
+                    this.speedY = Math.random() * 0.6 + 0.25;
+                    this.speedX = (Math.random() - 0.5) * 0.4;
+                    this.color = colors[Math.floor(Math.random() * colors.length)];
+                    this.wobble = Math.random() * Math.PI * 2;
+                }
+                update() {
+                    this.y -= this.speedY;
+                    this.wobble += 0.02;
+                    this.x += Math.sin(this.wobble) * 0.35 + this.speedX;
+                    if (this.y < -25) this.reset(false);
+                }
+                draw() {
+                    ctx.save();
+                    ctx.translate(this.x, this.y);
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    const s = this.size / 2;
+                    ctx.moveTo(0, s * 0.4);
+                    ctx.bezierCurveTo(-s, -s * 0.5, -s * 1.6, s * 0.6, 0, s * 1.5);
+                    ctx.bezierCurveTo(s * 1.6, s * 0.6, s, -s * 0.5, 0, s * 0.4);
+                    ctx.fill();
+                    ctx.restore();
+                }
+            }
+
+            for (let i = 0; i < heartCount; i++) {
+                hearts.push(new HeartParticle());
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+                hearts.forEach(h => {
+                    h.update();
+                    h.draw();
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        /**
+         * 3. RENDER "REASONS I LOVE YOU" FLIP CARDS
+         */
+        function renderReasonsCards() {
+            const grid = document.getElementById('reasonsGrid');
+            if (!grid) return;
+
+            grid.innerHTML = LOVE_DATA.reasons.map((item) => `
+                <div class="perspective-1000 h-64 cursor-pointer group" onclick="this.querySelector('.card-inner').classList.toggle('rotate-y-180')">
+                    <div class="card-inner relative w-full h-full transition-transform duration-700 transform-style-3d shadow-lg shadow-roseSoft/10 rounded-3xl">
+                        <!-- Card Front -->
+                        <div class="backface-hidden absolute inset-0 bg-white border border-roseSoft/30 rounded-3xl p-6 flex flex-col items-center justify-center text-center">
+                            <span class="font-serif italic text-3xl text-champagne font-semibold mb-2">#${item.number}</span>
+                            <h3 class="font-serif text-2xl font-semibold text-charcoal">${item.title}</h3>
+                            <span class="mt-4 inline-flex items-center gap-1 text-xs font-medium text-roseDeep bg-blush px-3 py-1 rounded-full">
+                                Tap to flip &hearts;
+                            </span>
+                        </div>
+                        <!-- Card Back -->
+                        <div class="backface-hidden rotate-y-180 absolute inset-0 bg-gradient-to-br from-roseDeep to-roseSoft text-white rounded-3xl p-7 flex flex-col items-center justify-center text-center">
+                            <p class="text-sm sm:text-base leading-relaxed font-normal">
+                                "${item.detail}"
+                            </p>
+                            <span class="mt-4 font-serif italic text-lg text-white/90">— Tierra</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        /**
+         * 4. INTERACTIVE "LOVE JAR" GENERATOR
+         */
+        function initLoveJar() {
+            const btn = document.getElementById('pullNoteBtn');
+            const noteText = document.getElementById('loveNoteText');
+            const noteCounter = document.getElementById('loveNoteCounter');
+            const notePaper = document.getElementById('loveNotePaper');
+            if (!btn || !noteText) return;
+
+            let currentIndex = -1;
+
+            btn.addEventListener('click', () => {
+                // Pick next note in cycle (or random non-repeating)
+                currentIndex = (currentIndex + 1) % LOVE_DATA.jarNotes.length;
+
+                // Subtle pop animation on the paper
+                notePaper.classList.add('scale-95', 'opacity-60');
+                setTimeout(() => {
+                    noteText.textContent = `"${LOVE_DATA.jarNotes[currentIndex]}"`;
+                    noteCounter.textContent = `Note ${currentIndex + 1} of ${LOVE_DATA.jarNotes.length}`;
+                    notePaper.classList.remove('scale-95', 'opacity-60');
+                }, 160);
+            });
+        }
+
+        /**
+         * 5. RENDER & CONTROL "OPEN WHEN..." ENVELOPES + MODAL
+         */
+        function initOpenWhenLetters() {
+            const grid = document.getElementById('envelopesGrid');
+            const modal = document.getElementById('letterModal');
+            const modalContent = modal.querySelector('.modal-content');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            const closeBtn = document.getElementById('closeModalBtn');
+
+            if (!grid || !modal) return;
+
+            grid.innerHTML = LOVE_DATA.letters.map((letter, idx) => `
+                <button 
+                    type="button"
+                    data-letter-index="${idx}"
+                    class="envelope-card text-left bg-white hover:bg-blush/40 border border-roseSoft/30 rounded-3xl p-6 sm:p-7 shadow-md shadow-charcoal/5 transition-all flex items-center gap-5 group focus:outline-none focus:ring-2 focus:ring-roseDeep/40"
+                >
+                    <div class="envelope-icon shrink-0 w-14 h-14 rounded-2xl bg-blush border border-roseSoft/30 flex items-center justify-center text-roseDeep relative">
+                        <!-- Envelope SVG with Wax Seal -->
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        <span class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-roseDeep text-[9px] text-white flex items-center justify-center shadow-sm">&hearts;</span>
+                    </div>
+                    <div>
+                        <h3 class="font-serif text-2xl font-semibold text-charcoal group-hover:text-roseDeep transition-colors">
+                            ${letter.label}
+                        </h3>
+                        <p class="text-xs sm:text-sm text-warmGray mt-0.5">${letter.subtitle}</p>
+                    </div>
+                </button>
+            `).join('');
+
+            function openModal(letter) {
+                modalTitle.textContent = letter.label;
+                modalBody.textContent = letter.content;
+                modal.classList.remove('invisible', 'opacity-0');
+                modalContent.classList.remove('scale-95', 'opacity-0');
+            }
+
+            function closeModal() {
+                modal.classList.add('opacity-0');
+                modalContent.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => {
+                    modal.classList.add('invisible');
+                }, 280);
+            }
+
+            grid.querySelectorAll('.envelope-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const idx = parseInt(card.getAttribute('data-letter-index'), 10);
+                    openModal(LOVE_DATA.letters[idx]);
+                });
+            });
+
+            closeBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !modal.classList.contains('invisible')) {
+                    closeModal();
+                }
+            });
+        }
+
+        /**
+         * 6. PLAYFUL RUNAWAY "NO" BUTTON & CELEBRATORY CONFETTI "YES" BUTTON
+         */
+        function initFinaleInteraction() {
+            const yesBtn = document.getElementById('yesBtn');
+            const noBtn = document.getElementById('noBtn');
+            const playground = document.getElementById('playgroundArea');
+            const celebrationMsg = document.getElementById('celebrationMessage');
+
+            if (!yesBtn || !noBtn || !playground) return;
+
+            const playfulPrompts = [
+                "Nice try, Paul! 😉",
+                "Wrong button, handsome!",
+                "Oops, too slow!",
+                "You know the answer! 💕",
+                "Try the pink one! ✨"
+            ];
+            let dodgeCount = 0;
+
+            function dodgeNoButton() {
+                const containerRect = playground.getBoundingClientRect();
+                const btnRect = noBtn.getBoundingClientRect();
+
+                // Calculate safe random coordinates inside the playground container
+                const maxX = Math.max(20, containerRect.width - btnRect.width - 16);
+                const maxY = Math.max(20, containerRect.height - btnRect.height - 16);
+
+                const randomX = Math.floor(Math.random() * maxX);
+                const randomY = Math.floor(Math.random() * maxY);
+
+                noBtn.style.position = 'absolute';
+                noBtn.style.left = `${randomX}px`;
+                noBtn.style.top = `${randomY}px`;
+                noBtn.textContent = playfulPrompts[dodgeCount % playfulPrompts.length];
+                dodgeCount++;
+            }
+
+            // Dodge on mouse hover AND touch tap for mobile friendliness
+            noBtn.addEventListener('mouseenter', dodgeNoButton);
+            noBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                dodgeNoButton();
+            }, { passive: false });
+            noBtn.addEventListener('click', dodgeNoButton);
+
+            // Celebratory burst when Paul clicks Yes!
+            yesBtn.addEventListener('click', () => {
+                celebrationMsg.classList.remove('hidden');
+                noBtn.style.display = 'none';
+                yesBtn.textContent = "Forever & Always! ♥";
+
+                // Trigger warm rose & gold confetti burst
+                if (typeof confetti === 'function') {
+                    confetti({
+                        particleCount: 90,
+                        spread: 75,
+                        origin: { y: 0.7 },
+                        colors: ['#B55D64', '#E2959A', '#D4A373', '#FCECEB']
+                    });
+                }
+            });
+        }
+
+        // Initialize all interactive modules once DOM is loaded
+        window.addEventListener('DOMContentLoaded', () => {
+            initFloatingHearts();
+            renderReasonsCards();
+            initLoveJar();
+            initOpenWhenLetters();
+            initFinaleInteraction();
+        });
+    </script>
+</body>
+</html>
